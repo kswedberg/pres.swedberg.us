@@ -1,0 +1,16 @@
+
+pre {
+  margin-bottom: .2em;
+  padding: 1em;
+  background-color: #fff;
+  font-size: 1.3em;
+}
+
+[data-code]::after {
+  content: attr(data-code);
+  display: block;
+  margin-bottom: 1em;
+  font-style: italic;
+  color: #777;
+  text-align: right;
+}

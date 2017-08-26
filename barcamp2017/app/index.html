@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Barcamp 2017: Offline</title>
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="icon" href="/favicon.ico?v=3">
+    <link rel="manifest" href="/barcamp2017/manifest.webmanifest">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="barcamp2017">
+    <meta name="apple-mobile-web-app-title" content="barcamp2017">
+    <meta name="msapplication-starturl" content="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  </head>
+  <body>
+    <div id="slideshow">
+      <section class="is-active">
+        <div class="center">
+          <h1>Offline Options</h1>
+          <p>Barcamp GR</p>
+          <p>26 August 2017</p>
+          <p>Karl Swedberg</p>
+        </div>
+        <ul>
+          <li>Offline Status</li>
+          <li>Application Cache</li>
+          <li>Progessive Web Apps / Service Workers</li>
+          <li>Client-side, Syncing Databases</li>
+        </ul>
+      </section>
+      <section>
+        <h2>Show Offline Status</h2>
+        <p>Add an "alert" div:</p>
+        <div data-code="examples/is-offline.html"></div>
+
+        <p>And, add a function to change its state:</p>
+        <div data-code="examples/is-offline-pre.js"></div>
+
+
+      </section>
+      <section>
+        <h2>Show Offline Status: Alert &amp; Forms</h2>
+        <div data-code="examples/is-offline.js"></div>
+        <h3>Offline Form</h3>
+        <form class="" action="index.html" method="post">
+          <label for="form-foo">Foo</label>
+          <input type="text" name="foo" value="" id="form-foo">
+          <button type="submit" name="send">Send</button>
+        </form>
+        <div data-code="examples/is-offline.css"></div>
+      </section>
+
+      <section>
+        <h2>Show Offline Status: Uncached Links</h2>
+        <p>
+          See <a href="https://mxb.at/blog/youre-offline/">https://mxb.at/blog/youre-offline/</a>
+        </p>
+        <!--
+        "The CacheStorage interface represents the storage for Cache objects. It provides a master directory of all the named caches that a ServiceWorker, other type of worker or window scope can access (you don't have to use it with service workers, even though that is the spec that defines it) and maintains a mapping of string names to corresponding Cache objects."
+        -->
+        <div data-code="examples/offline-links.js"></div>
+        <div data-code="examples/offline-links.css"></div>
+      </section>
+
+      <section>
+        <h2>Application Cache</h2>
+        <p>Yes, yes, we all know it's "<a href="https://alistapart.com/article/application-cache-is-a-douchebag">a douchebag</a>" and the W3C has deprecated it.</p>
+        <p>But if your browser doesn't support Service Workers (*cough* Safari *cough*), it's better than nothing.</p>
+        <ul>
+          <li>Good idea to generate it during build process with a library (search npm).</li>
+          <li>
+            <p>Make sure you don't cache the manifest itself.</p>
+            <code>ExpiresByType text/cache-manifest "access plus 0 seconds"</code></li>
+        </ul>
+        <div>
+          <img src="img/caniuse-serviceworker.png" alt="http://caniuse.com/#search=serviceworker">
+        </div>
+      </section>
+
+      <section>
+        <h2>PWAs: Progressive Web Apps</h2>
+        <ul>
+          <li>Need Service Worker (Performance improvement, offline capability)</li>
+          <li>Need manifest.json (Android homescreen availability, etc.)</li>
+          <li>Need https (Security)</li>
+          <li>Don't need to be apps</li>
+        </ul>
+        <p>See <a href="https://developers.google.com/web/progressive-web-apps/checklist">Google Web App Checklist</a></p>
+      </section>
+
+      <section>
+        <h2>PWAs: Service Workers</h2>
+        <p>Intercept network requests to do different things based on network connection, cached status of assets, your preferences.</p>
+
+        <p>Some possibilities:</p>
+        <ul>
+          <li>Show a custom offline page if the network is down</li>
+          <li>Get resources from the network first, and fall back to a cached version if network is down</li>
+          <li>Get resources from cache first, and fall back to network if cached copy unavailable or stale</li>
+          <li>Enable background sync (maybe?) and even periodic background sync (some day?)</li>
+          <li>Provide push notifications</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Registering a Service Worker — Minimal</h2>
+        <div data-code="examples/sw-register-minimal.js"></div>
+      </section>
+
+      <section>
+        <h2>Registering a Service Worker — Robust</h2>
+        <div data-code="examples/sw-fallback/sw-register.js"></div>
+      </section>
+
+      <section>
+        <h2>Service Worker: Offline Page Fallback</h2>
+        <p>Regarding waitUntil():</p>
+        <blockquote cite="https://developer.mozilla.org/en-US/docs/Web/API/ExtendableEvent/waitUntil">In service workers, extending the life of an event prevents the browser from terminating the service worker before asynchronous operations within the event have completed.</blockquote>
+        <div data-code="examples/sw-fallback/sw-pre.js"></div>
+      </section>
+
+      <section>
+        <h2>Service Worker: Offline Page Fallback</h2>
+        <p><a href="examples/sw-fallback/">example</a></p>
+        <p>Complete code:</p>
+        <div data-code="examples/sw-fallback/sw.js"></div>
+
+      </section>
+
+      <section>
+        <h2>Service Worker: Cache-first</h2>
+        <div data-code="examples/sw-cachefirst.js"></div>
+      </section>
+
+      <section>
+        <h2>Service Worker: A Few Tips</h2>
+        <ul>
+          <li>Don't browser-cache the service-worker.js file. (Set 0s expires header in Apache/nginx config)</li>
+          <li>The registering file can go anywhere — either on its own or bundled with the rest of your scripts</li>
+          <li>The service worker file will only cache files in its directory or child directories of it (so, good idea to put it in doc root)</li>
+          <li>
+            Consider different cache strategies based on file type:
+            <div data-code="examples/is-get-html.js"></div>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Service Worker: Clean Up</h2>
+        <ul>
+          <li>Browser can delete files cached by ServiceWorker whenever it feels like it's getting too fat. </li>
+          <li>Browsers typically take all-or-nothing approach to clean up.</li>
+          <li>Probably good idea to have way to clean up caches on your own, especially if you're versioning them. Maybe something like this:</li>
+        </ul>
+        <div data-code="examples/sw-clean.js"></div>
+
+      </section>
+      <section>
+        <h2>Service Worker: Advanced Caching</h2>
+        <p>Use workbox.js:</p>
+        <div data-code="examples/workbox-build.js"></div>
+      </section>
+
+      <section>
+        <h2>Service Worker: workbox.js Generated Config</h2>
+        <p>Workbox.js produces this sw-workbox.js file:</p>
+        <div data-code="examples/sw-workbox.js"></div>
+      </section>
+
+      <section>
+        <h2>Service Worker: Background Sync</h2>
+        <ul>
+          <li>sync event is triggered when device goes online</li>
+          <li>Don't need to keep persisent HTTP connection open</li>
+          <li>Because in SW, can fire even if the website isn't open</li>
+        </ul>
+
+        <h3>Background Sync Resources</h3>
+        <ul>
+          <li><a href="https://wiki-offline.jakearchibald.com/">Jake Archibald's Offline Wiki Demo</a></li>
+          <li><a href="https://developers.google.com/web/updates/2015/12/background-sync">Introducing Background Sync</a></li>
+          <li><a href="https://ponyfoo.com/articles/backgroundsync">ServiceWorker: A Basic Guide to BackgroundSync</a></li>
+          <li><a href="https://github.com/WICG/BackgroundSync/blob/master/explainer.md">WICG BackgroundSync Explainer</a></li>
+        </ul>
+        <h3>My Experience</h3>
+        <ul>
+          <li>When testing background sync, you must kill your computer's connection to the internet. <em>Using the offline checkbox in Google Chrome is not enough</em>!</li>
+          <li>Browser support still poor: Only Chrome currently supports it</li>
+        </ul>
+
+      </section>
+
+      <section>
+        <h2>Databases</h2>
+        <h3>…Versus SW background sync (ideally)</h3>
+        <ul>
+          <li>Service Worker better because sync event can be triggered without website open</li>
+          <li>ServiceWorker more efficient: no long polling / multiple http connections open</li>
+          <li>Client-side db has better browser support</li>
+        </ul>
+        <p>Example: <a href="https://digitalimagegallery.howardmiller.com/">Image Gallery</a></p>
+      </section>
+
+      <section>
+        <h2>Databases: PouchDB / CouchDB</h2>
+        <blockquote cite="https://pouchdb.com/">
+          <p>PouchDB was created to help web developers build applications that work as well offline as they do online.</p>
+          <p>It enables applications to store data locally while offline, then synchronize it with CouchDB and compatible servers when the application is back online, keeping the user's data in sync no matter where they next login.</p>
+        </blockquote>
+
+        <div data-code="examples/pouchdb.js"></div>
+
+      </section>
+
+      <section>
+        <h2>Databases: GUN</h2>
+        <p><a href="https://github.com/amark/gun">GUN on GitHub</a></p>
+        <blockquote cite="http://gun.js.org/">
+          GUN works even if your internet or cell reception doesn't. Users can still plug away and save data as normal, and then when the network comes back online GUN will automatically synchronize all the changes and handle any conflicts for you.
+        </blockquote>
+        <div data-code="examples/gun.js"></div>
+      </section>
+
+      <section>
+        <h2>Offline-first Framework: Hoodie</h2>
+        <p><a href="http://hood.ie/">hood.ie</a></p>
+        <ul>
+          <li>Uses PouchDB / CouchDB</li>
+          <li>Super intuitive API for main features</li>
+          <li>I want to love it, but …</li>
+          <li>Documentation leaves much to be desired</li>
+          <li>Not clear where project is headed</li>
+          <li>Many plugins appear abandoned</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Further Resources</h2>
+        <h3>Info</h3>
+        <ul>
+          <li><a href="https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/">Offline Cookbook</a></li>
+          <li>
+            <a href="https://serviceworke.rs/">ServiceWorker Cookbook</a>
+          </li>
+          <li><a href="https://labs.kollegorna.se/blog/2017/06/service-worker-gotchas/">Service Worker gotchas</a></li>
+          <li><a href="https://developers.google.com/web/fundamentals/architecture/app-shell">The App Shell Model</a>: for single-page apps</li>
+          <li>Offline-first for Your Templated Site (<a href="https://jeffy.info/2016/11/02/offline-first-for-your-templated-site-part-1.html">Part 1</a>, <a href="https://jeffy.info/2017/01/24/offline-first-for-your-templated-site-part-2.html">Part 2</a>)
+          </li>
+        </ul>
+        <h3>Tools</h3>
+        <ul>
+          <li><a href="https://workboxjs.org/">Workbox</a>: A set of modular JavaScript libraries</li>
+          <li><a href="https://developers.google.com/web/tools/lighthouse/">Lighthouse</a>: Chrome extension/CLI tool/Node module for running web page audits (including PWA checks). Also, available in Chrome's Developer Tools Audit tab. </li>
+        </ul>
+        <h3>My Examples</h3>
+        <ul>
+          <li><a href="https://digitalimagegallery.howardmiller.com/">Image Gallery</a></li>
+          <li><a href="https://experiment21.com/">Experiment 21</a></li>
+        </ul>
+
+      </section>
+      <section>
+        <h2>Thanks!</h2>
+        <ul>
+          <li>This presentation: https://pres.swedberg.us/barcamp2017</li>
+          <li>Source code (eventually): <a href="https://github.com/kswedberg/pres.swedberg.us">https://github.com/kswedberg/pres.swedberg.us</a></li>
+          <li>gmail: kswedberg</li>
+          <li>twitter: <a href="https://twitter.com/kswedberg">@kswedberg</a></li>
+        </ul>
+      </section>
+    </div>
+    <div
+      class="Alert"
+      id="alert"
+      aria-live="assertive"
+      aria-relevant="text"
+      hidden
+    ></div>
+    <script src="js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+@import '../../node_modules/prismjs/themes/prism.css';
+@import './base/*.css';
+@import './components/*.css';
+@import '../examples/*.css';
+
+.center {
+  text-align: center;
+}
+[hidden] {
+  opacity: 0;
+  transform: scale(0);
+  transition: .5s all;
+}
+.strike {
+  text-decoration: line-through;
+}
