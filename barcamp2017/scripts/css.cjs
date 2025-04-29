@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const postcss = require('postcss');
-const config = require('./postcss.config.js');
+const config = require('./postcss.config.cjs');
 
 const cwd = process.cwd();
 const src = path.join(cwd, 'app/css/app.css');

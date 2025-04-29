@@ -5,15 +5,16 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf ./public/",
-    "copy": "node ./scripts/copy.js -- cli",
-    "sw": "node ./scripts/sw.js",
-    "build:js": "webpack --progress --colors",
-    "build:css": "node ./scripts/css.js -- cli",
+    "copy": "node ./scripts/copy.cjs -- cli",
+    "sw": "node ./scripts/sw.cjs",
+    "build:js": "webpack --config=webpack.config.cjs --progress --colors",
+    "build:css": "node ./scripts/css.cjs -- cli",
     "build": "npm run clean && npm run copy && npm run build:js && npm run build:css && npm run sw",
     "build:production": "NODE_ENV=production npm run build",
-    "watch": "node ./scripts/watch.js",
-    "deploy": "npm run build:production && node ./scripts/deploy.js"
+    "watch": "node ./scripts/watch.cjs",
+    "deploy": "npm run build:production && node ./scripts/deploy.cjs"
   },
+  "type": "module",
   "keywords": [],
   "author": "Karl Swedberg <kswedberg@gmail.com>",
   "license": "MIT",

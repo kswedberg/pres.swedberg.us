@@ -1,4 +1,7 @@
-# Presentation for Grand Rapids JavaScript Meetup, 25 July 2017 Edit
+# Presentation: Offline Options
+
+* Grand Rapids JavaScript Meetup, 25 July 2017
+* Grand Rapids Barcamp, 26 August 2017
 
 To run this locally, you must have node.js 4+ and (optionally) yarn installed.
 
