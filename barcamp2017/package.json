@@ -40,7 +40,7 @@
     "postcss-cssnext": "^3.0.2",
     "postcss-easy-import": "^2.1.0",
     "prismjs": "^1.6.0",
-    "rsyncwrapper": "^2.0.1",
+    "rsyncwrapper": "^3.1.0",
     "sanitize.css": "^5.0.0",
     "webpack": "^3.3.0",
     "workbox-build": "^1.1.0",
